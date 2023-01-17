@@ -6,7 +6,7 @@
 #define Ch 500
 #define R1 0.5
 #define R2 2
-#define ZP 5
+#define ZP 7
 #define H 2
 #define R3 0.75
 
@@ -36,12 +36,12 @@ int main(int argc, char *argv[])
 
     double A = 0;
     double B = 0;
-    double v[3] = {1, 0, 0.2};
+    double v[3] = {3, 1, 2};
 
-    for (int frames = 0; frames < 500; frames++)
+    for (double frames = 0; frames < 500; frames++)
     {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        // renderFrameArrow(renderer, A, B);
+        //renderFrameArrow(renderer, A, B);
         renderFrameCube(renderer, A, v);
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
@@ -169,12 +169,12 @@ void renderFrameCube(SDL_Renderer *renderer, double angle, double q_vec[3])
     double bb = b * b;
     double cc = c * c;
     double dd = d * d;
-    double ab = a * b;
-    double ac = a * c;
-    double ad = a * d;
-    double bc = b * c;
-    double bd = b * d;
-    double cd = c * d;
+    double ab = 2 * a * b;
+    double ac = 2 * a * c;
+    double ad = 2 * a * d;
+    double bc = 2 * b * c;
+    double bd = 2 * b * d;
+    double cd = 2 * c * d;
 
     for (double length = -H / 2; length < H / 2; length += 0.2)
     {
@@ -182,9 +182,9 @@ void renderFrameCube(SDL_Renderer *renderer, double angle, double q_vec[3])
         {
             for (double width = -H / 2; width < H / 2; width += 0.2)
             {
-                double x = length * (aa + bb - cc - dd) + height * 2 * (bc - ad) + width * 2 * (ac + bd);
-                double y = length * 2 * (ad + bc) + height * (aa - bb + cc - dd) + width * 2 * (cd - ab);
-                double z = ZP - length * 2 * (bd - ac) + height * 2 * (ab + cd) + width * (aa - bb - cc + dd);
+                double x = length * (aa + bb - cc - dd) + height * (bc - ad) + width * (ac + bd);
+                double y = length * (ad + bc) + height * (aa - bb + cc - dd) + width * (cd - ab);
+                double z = ZP + length * (bd - ac) + height * (ab + cd) + width * (aa - bb - cc + dd);
 
                 double zInv = 1 / z;
                 int xp = (int)(Cw / 2 + distance * zInv * x);
